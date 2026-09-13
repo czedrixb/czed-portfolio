@@ -2,204 +2,136 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: light;
+:root { color-scheme:dark; --canvas:#fafbf8; --panel:#171817; --line:#363833; --text:#f7f7f3; --muted:#b7b8b5; --lime:#acfa58; --ease:cubic-bezier(.22,1,.36,1); }
+* { box-sizing:border-box; }
+html { background:#161715; scroll-behavior:smooth; }
+body { margin:0; color:var(--text); font-family:Arial,Helvetica,sans-serif; -webkit-font-smoothing:antialiased; }
+button,a { font:inherit; } button { cursor:pointer; } a { text-decoration:none; }
+button:disabled { cursor:wait; } :focus-visible { outline:2px solid var(--lime); outline-offset:4px; }
+h1,h2,h3,p { margin:0; } button { color:inherit; }
+.skip-link { position:fixed; top:-80px; left:24px; z-index:100; background:var(--lime); color:#111; padding:12px; }
+.skip-link:focus { top:20px; }
+.portfolio-shell { margin:10px; padding:18px 28px 36px; border-radius:18px; background-color:var(--canvas); background-image:radial-gradient(#bec2b950 .7px,transparent .8px); background-size:12px 12px; min-height:calc(100dvh - 20px); }
+.bento-grid { max-width:1500px; margin:auto; display:grid; grid-template-columns:23fr 7fr 31fr 7fr 13fr 19fr; grid-template-rows:clamp(420px,32.3vw,515px) minmax(190px,auto) minmax(215px,auto); gap:8px; }
+.bento-panel { min-width:0; border:1px solid #353732; border-radius:14px; background:radial-gradient(ellipse at 70% 10%,#25272250,transparent 65%),var(--panel); overflow:hidden; }
+.eyebrow { display:flex; align-items:center; gap:10px; color:#f0f1ec; font-size:10px; text-transform:uppercase; letter-spacing:1.5px; line-height:1.5; }
+.eyebrow:before { content:''; flex:none; width:9px; height:9px; border-radius:50%; background:linear-gradient(135deg,#d5ff8b,#78e73a); box-shadow:0 0 8px #9aff3220; }
+.reveal-panel { animation:reveal 440ms var(--ease) var(--delay,0ms) backwards; }
+@keyframes reveal { from { opacity:0; transform:translateY(10px) scale(.985); } }
+.intro-panel { grid-column:1; grid-row:1; position:relative; padding:20px 28px; display:flex; flex-direction:column; }
+.intro-panel h1 { font-size:clamp(23px,2.05vw,33px); font-weight:700; line-height:1.1; letter-spacing:-1.1px; margin-top:18px; white-space:nowrap; }
+.intro-panel h2 { color:#bcbcc2; font-size:clamp(18px,1.5vw,24px); letter-spacing:-.6px; line-height:1.2; margin-top:4px; }
+.intro-bio { color:#c8c9c6; font-size:16px; line-height:1.3; margin-top:14px; }
+.editorial-character { width:100%; height:0; flex:1; min-height:130px; display:flex; align-items:center; justify-content:center; margin-top:-5px; }
+/* Display the original reference pixels, not a generated interpretation.
+   Source crop: x=112, y=190, width=224, height=264 in the 1536×1024 reference.
+   The lower-left notch excludes the reference's CV label without clipping the stool. */
+.reference-character { position:relative; height:100%; max-height:264px; aspect-ratio:224 / 264; overflow:hidden; flex:none; clip-path:polygon(0 0,100% 0,100% 100%,29% 100%,29% 92%,0 92%); }
+.reference-character img { position:absolute; width:685.714286%; max-width:none; height:auto; left:-50%; top:-71.969697%; }
+.cv-link { color:#fff; font-size:12px; align-self:flex-start; border-bottom:2px solid #a2d571; padding-bottom:4px; }
+.intro-motto { margin-top:22px; font-size:9px; letter-spacing:3px; text-transform:uppercase; color:#d2d3d0; }
+.project-panel { position:relative; display:flex; flex-direction:column; padding:14px 12px 0; }
+.project-0 { grid-column:2 / 5; grid-row:1; }
+.project-1 { grid-column:5 / 7; grid-row:1; }
+.project-2 { grid-column:1 / 3; grid-row:2 / 4; }
+.project-3 { grid-column:3; grid-row:2 / 4; }
+.project-heading { padding:0 20px 9px; }
+.project-heading h2 { font-size:clamp(25px,2.35vw,37px); font-weight:700; line-height:1.05; letter-spacing:-1px; margin-top:3px; }
+.project-subtitle { font-size:16px; line-height:1.25; margin-top:2px; }
+.project-2 .project-heading,.project-3 .project-heading { padding-left:18px; }
+.project-2 h2,.project-3 h2 { font-size:25px; }
+.project-2 .project-subtitle,.project-3 .project-subtitle { font-size:14px; }
+.project-open { position:absolute; inset:0; z-index:2; background:transparent; border:0; border-radius:14px; }
+.round-arrow { position:absolute; top:14px; right:16px; display:grid; place-items:center; width:34px; height:34px; font-size:24px; font-weight:400; border:1px solid #ffffff20; border-radius:50%; background:linear-gradient(130deg,#ffffff0c,#ffffff03); transition:background 140ms; }
+.explore-label { position:absolute; bottom:15px; right:16px; font-size:12px; }
+.project-panel:has(.project-open:hover) { border-color:#6b7264; box-shadow:0 7px 16px #1113; }
+.project-open:hover .round-arrow { background:#ffffff1c; }
+.project-open:active { transform:scale(.985); }
+.preview-frame { position:relative; overflow:hidden; background:#292b27; }
+.project-preview { flex:1; min-height:180px; border-radius:10px; }
+.preview-frame img { width:100%; height:100%; position:absolute; inset:0; object-fit:cover; object-position:top center; opacity:1; transition:opacity 180ms; }
+.preview-frame img.awaiting-decode { opacity:0; }
+.preview-frame img.decoded { opacity:1; }
+.preview-frame.pending:before { content:''; position:absolute; inset:0; background:#343730; animation:loading 1.5s ease-in-out infinite alternate; }
+@keyframes loading { to { opacity:.35; } }
+.preview-error { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:10px; color:var(--muted); font-size:13px; z-index:3; }
+.preview-error button { padding:8px 12px; background:#222; border:1px solid #666; border-radius:6px; }
+.project-tech { display:flex; gap:5px; padding:8px 0; margin:0; list-style:none; padding-right:108px; flex-wrap:wrap; min-height:46px; align-items:center; }
+.project-tech li { display:flex; align-items:center; gap:7px; font-size:10px; background:linear-gradient(#ffffff09,#ffffff03); border:1px solid #ffffff0b; border-radius:20px; padding:4px 10px; white-space:nowrap; }
+.tech-symbol { font-size:23px; font-weight:700; color:#08d2a5; line-height:1; }
+.tech-symbol[data-tech="Laravel"] { color:#ff493e; }.tech-symbol[data-tech="MySQL"],.tech-symbol[data-tech="Tailwind"],.tech-symbol[data-tech="REST API"] { color:#02b9ed; }
+.tech-symbol[data-tech="Livewire"] { color:#f77ac6; }.tech-symbol[data-tech="Next.js"],.tech-symbol[data-tech="Prisma"] { color:#fff; }
+.tech-symbol[data-tech="TypeScript"] { font-size:12px; background:#167aff; padding:4px 2px; color:white; border-radius:3px; }
+.experience-panel { grid-column:4 / 6; grid-row:2 / 4; padding:14px 20px; display:flex; flex-direction:column; }
+.experience-panel h2,.technologies-panel h2,.contact-panel h2 { font-size:22px; letter-spacing:-.8px; font-weight:700; line-height:1.15; }
+.experience-panel .eyebrow { font-size:9px; gap:8px; letter-spacing:1px; margin-bottom:4px; }
+.panel-subtitle { color:#dddeda; font-size:13px; line-height:1.35; margin-top:5px; }
+.experience-list { list-style:none; padding:0 0 0 20px; margin:24px 0; position:relative; flex:1; }
+.experience-list:before { content:''; position:absolute; top:12px; bottom:26px; width:1px; background:#787b74; left:3px; }
+.experience-list li { display:flex; gap:12px; position:relative; margin-bottom:24px; }
+.experience-list li:before { content:''; position:absolute; left:-22px; top:10px; width:10px; height:10px; border-radius:50%; background:#a7a7b1; border:2px solid #353834; box-shadow:0 0 0 1px #777; }
+.experience-list li:first-child:before { background:#b4d4b1; }
+.company-icon { width:36px; height:40px; display:grid; place-items:center; flex:none; border-radius:8px; background:linear-gradient(125deg,#ffffff11,#ffffff04); font-weight:700; font-size:24px; color:#d0d0d6; }
+.experience-list h3 { font-size:12px; line-height:1.4; margin:0 0 2px; font-weight:600; }
+.experience-list p { font-size:11px; line-height:1.4; color:#c6c7c4; }
+.experience-panel .cv-link { margin-left:auto; margin-right:auto; }
+.technologies-panel { grid-column:6; grid-row:2; padding:20px 16px 14px; }
+.technologies-panel h2 span,.contact-panel h2 span { margin-right:7px; }
+.tech-cloud { display:grid; grid-template-columns:1fr 1fr; list-style:none; margin:12px 0 0; padding:0; gap:6px; }
+.tech-cloud li { display:flex; align-items:center; gap:8px; padding:10px 8px; border:1px solid #ffffff12; border-radius:9px; background:linear-gradient(135deg,#ffffff08,#ffffff03); font-size:11px; }
+.tech-cloud .tech-symbol { font-size:27px; }
+.contact-panel { position:relative; grid-column:6; grid-row:3; padding:22px 16px; }
+.contact-panel h2 { padding-right:36px; }
+.contact-panel .panel-subtitle { max-width:175px; }
+.contact-arrow { position:absolute; right:14px; top:18px; width:45px; height:45px; border-radius:50%; background:var(--lime); color:#172010; display:grid; place-items:center; font-size:30px; }
+.contact-actions { display:flex; gap:10px; margin-top:20px; }
+.contact-actions a { padding:11px 9px; border-radius:12px; border:1px solid #ffffff1b; font-size:12px; white-space:nowrap; }
+.contact-actions a:hover { background:#ffffff0d; }
+.contact-motto { color:#c6c7c4; font-size:8px; text-transform:uppercase; letter-spacing:2px; margin-top:24px; }
+.overlay { position:fixed; inset:0; z-index:40; display:grid; place-items:center; padding:32px; background:#0008; backdrop-filter:blur(8px); }
+.project-tray { width:min(1200px,calc(100vw - 64px)); max-height:calc(100dvh - 64px); overflow:auto; background:radial-gradient(ellipse at 80% 0,#282b2450,transparent 70%),#171817; border:1px solid #777b70; border-radius:20px; padding:28px 32px 16px; box-shadow:0 24px 90px #0009; }
+.tray-header { display:flex; justify-content:space-between; align-items:flex-start; gap:20px; }
+.tray-header h2 { font-size:52px; letter-spacing:-2px; line-height:1.05; margin-top:8px; font-weight:700; }
+.tray-subtitle { color:#c8cedd; font-size:24px; margin-top:2px; }
+.tray-header-actions { display:flex; flex-direction:column; align-items:flex-end; gap:20px; }
+.tray-controls { display:flex; gap:9px; }
+.tray-controls button,.viewer-toolbar button { min-width:44px; min-height:44px; border:1px solid #ffffff22; border-radius:24px; padding:0 12px; background:#ffffff04; }
+.lime-button { display:inline-flex; background:var(--lime); color:#15200d; padding:13px 18px; border-radius:13px; font-weight:700; }
+.tray-tech { display:flex; gap:10px; flex-wrap:wrap; list-style:none; padding:0; margin:14px 0; }
+.tray-tech li { padding:7px 14px; border:1px solid #ffffff22; border-radius:11px; font-size:12px; }
+.tray-content { display:grid; grid-template-columns:minmax(0,2.1fr) minmax(0,1fr); gap:28px; }
+.gallery-stage { position:relative; aspect-ratio:16/9; border-radius:8px; background:#2a2c28; overflow:hidden; }
+.gallery-stage .preview-frame { height:100%; }.gallery-stage .preview-frame img { object-fit:contain; }
+.expand-image { position:absolute; inset:0; cursor:zoom-in; background:transparent; border:0; }
+.expand-image span { position:absolute; top:12px; right:12px; padding:8px 11px; border-radius:50px; background:#171817b0; font-size:12px; }
+.thumbnails { display:flex; gap:10px; margin-top:16px; }
+.thumbnails button { width:0; flex:1; height:80px; padding:3px; border:2px solid transparent; border-radius:9px; background:transparent; overflow:hidden; }
+.thumbnails button.selected { border-color:var(--lime); }.thumbnails img { height:100%; width:100%; object-fit:cover; object-position:top; border-radius:5px; }
+.caption { color:var(--muted); font-size:12px; line-height:1.5; margin:12px 0; min-height:36px; }
+.tray-details h3 { font-size:23px; font-weight:600; letter-spacing:-.7px; margin-bottom:12px; }
+.tray-details p { font-size:14px; color:#dcddd9; line-height:1.55; }
+.features { border-top:1px solid #ffffff22; padding:20px 0 0; margin-top:22px; list-style:none; }
+.features li { color:#d4d6d0; line-height:1.5; font-size:12px; padding:0 0 14px 20px; position:relative; }
+.features li:before { content:'◇'; position:absolute; left:0; color:var(--lime); }
+.project-tray footer { display:flex; align-items:center; justify-content:space-between; border-top:1px solid #ffffff22; padding-top:16px; margin-top:16px; font-size:12px; }
+.text-action { border:1px solid #ffffff25; background:transparent; border-radius:24px; padding:10px 18px; }
+.overlay-enter-active,.overlay-leave-active { transition:opacity 220ms; }.overlay-enter-from,.overlay-leave-to { opacity:0; }
+.image-viewer { position:fixed; inset:18px; z-index:50; display:flex; flex-direction:column; background:#10110f; border:1px solid #62675b; border-radius:14px; }
+.viewer-toolbar { display:flex; justify-content:flex-end; gap:8px; align-items:center; padding:10px; }.viewer-toolbar span { margin-right:auto; }
+.viewer-canvas { flex:1; min-height:0; overflow:hidden; position:relative; touch-action:none; display:grid; place-items:center; }
+.viewer-canvas img { width:100%; height:100%; object-fit:contain; pointer-events:none; }
+@media(min-width:981px) and (max-width:1250px) { .portfolio-shell { padding:18px; }.intro-panel { padding:20px 18px; }.project-tech { padding-right:95px; }.project-tech li { padding:4px 6px; font-size:9px; }.tech-symbol { font-size:17px; }.experience-panel { padding:14px 12px; }.company-icon { width:26px; }.experience-list li { gap:6px; }.contact-actions { gap:5px; }.contact-actions a { font-size:10px; padding:10px 6px; }.technologies-panel,.contact-panel { padding-left:12px; padding-right:12px; }.tech-cloud li { gap:4px; padding:9px 5px; }.tech-cloud .tech-symbol { font-size:19px; } }
+@media(max-width:980px) {
+ .bento-grid { grid-template-columns:1fr 1fr; grid-template-rows:auto; }
+ .bento-panel { grid-column:auto; grid-row:auto; }.intro-panel,.project-panel { min-height:440px; }
+ .experience-panel { grid-column:1; grid-row:3 / 5; }.technologies-panel { grid-column:2; grid-row:3; }.contact-panel { grid-column:2; grid-row:4; }
+ .intro-panel h1 { font-size:30px; }.editorial-character { max-height:250px; }.tray-content { grid-template-columns:1.5fr 1fr; }.tray-header h2 { font-size:40px; }.tray-subtitle { font-size:19px; }
 }
-
-html {
-  scroll-behavior: smooth;
-  /* 4rem sticky navbar (h-16) + 1rem breathing room. Also the single source of
-     truth for the anchor offset: Nuxt's default scrollBehavior reads this, and
-     parseFloat() of the initial 'auto' would otherwise make its offset NaN. */
-  scroll-padding-top: 5rem;
-  background-color: #f2eee7;
+@media(max-width:620px) {
+ .portfolio-shell { margin:6px; padding:10px; border-radius:12px; }.bento-grid { display:flex; flex-direction:column; gap:10px; }
+ .intro-panel { min-height:480px; padding:24px; }.editorial-character { min-height:240px; }.intro-panel h1 { font-size:30px; }
+ .project-panel { min-height:360px; }.project-heading h2 { font-size:29px; }.experience-panel { padding:24px; }.experience-list { margin:24px 0 8px; }.experience-list h3 { font-size:14px; }.experience-list p { font-size:13px; }
+ .technologies-panel,.contact-panel { padding:24px; }.tech-cloud li { font-size:14px; }.contact-actions a { font-size:14px; }
+ .overlay { padding:10px; }.project-tray { width:calc(100vw - 20px); max-height:calc(100dvh - 20px); padding:16px; }.tray-header { flex-direction:column-reverse; gap:14px; }.tray-header-actions { width:100%; flex-direction:row-reverse; gap:5px; align-items:center; }.tray-controls { gap:4px; }.tray-controls button { padding:0 10px; }.lime-button { font-size:12px; padding:12px; }.tray-subtitle { font-size:18px; }.tray-content { grid-template-columns:1fr; gap:16px; }.tray-header h2 { font-size:38px; }.thumbnails button { height:52px; }.image-viewer { inset:6px; }
 }
-
-body {
-  background-color: #f2eee7;
-  color: #000000;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-
-::selection {
-  background-color: #fedb0b;
-  color: #000000;
-}
-
-/* Keyboard focus ring — yellow on cream is invisible, so use black. */
-:focus-visible {
-  outline: 2px solid #000000;
-  outline-offset: 3px;
-  border-radius: 2px;
-}
-
-/* ---------------------------------------------------------------------------
-   Project detail dialog.
-
-   The panel and its backdrop are ordinary elements inside the dialog, animated
-   by Vue <Transition>, so the dialog itself is stripped back to a transparent
-   full-viewport frame. Tailwind's preflight only zeroes the padding; the user
-   agent's margin, border, background and max-width all have to go explicitly.
-
-   ::backdrop is left transparent on purpose — it cannot be driven by Vue
-   transition classes and vanishes the instant close() runs, which would cut
-   the exit fade short.
-   ------------------------------------------------------------------------- */
-
-dialog.project-dialog {
-  width: 100%;
-  height: 100%;
-  height: 100dvh; /* mobile URL bar: 100% resolves against the large viewport */
-  max-width: 100%;
-  max-height: 100%;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  overflow: hidden;
-}
-
-dialog.project-dialog::backdrop {
-  background: transparent;
-}
-
-/* The panel rises on its own rather than as part of the backdrop's transition,
-   so the full-viewport click surface behind it is never scaled. */
-.panel-rise {
-  animation: panel-rise 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-@keyframes panel-rise {
-  from { opacity: 0; transform: translateY(24px) scale(0.96); }
-  to { opacity: 1; transform: none; }
-}
-
-/* The blurred blobs are the most expensive thing on the page. Parking them
-   while a dialog is open keeps the panel's entrance smooth on weaker GPUs. */
-body.modal-open .fx-blob,
-body.modal-open .bg-hero,
-body.modal-open .bg-projects {
-  animation-play-state: paused;
-}
-
-/* ---------------------------------------------------------------------------
-   Decorative SVG tile patterns (restored from the original design), each with
-   a slow drift. The background-position travels exactly one tile per cycle,
-   so the loop is seamless.
-   ------------------------------------------------------------------------- */
-
-.bg-hero {
-  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.42'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10zM10 10c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10zm10 8c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm40 40c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  animation: pattern-drift-hero 50s linear infinite;
-}
-
-.bg-projects {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg fill='%239C92AC' fill-opacity='0.4'%3E%3Cpolygon fill-rule='evenodd' points='8 4 12 6 8 8 6 12 4 8 0 6 4 4 6 0 8 4'/%3E%3C/g%3E%3C/svg%3E");
-  animation: pattern-drift-projects 40s linear infinite;
-}
-
-@keyframes pattern-drift-hero {
-  from { background-position: 0 0; }
-  to { background-position: 80px -80px; }
-}
-
-@keyframes pattern-drift-projects {
-  from { background-position: 0 0; }
-  to { background-position: -24px 24px; }
-}
-
-/* ---------------------------------------------------------------------------
-   Soft edge masks. Every decorative layer fades to nothing before it reaches
-   its section boundary, so it never butts up against an opaque neighbour
-   (a wave fill, the navbar) at a visible straight edge.
-   ------------------------------------------------------------------------- */
-
-.fx-mask-soft {
-  -webkit-mask-image: radial-gradient(44% 42% at 50% 50%, #000 0%, transparent 100%);
-  mask-image: radial-gradient(44% 42% at 50% 50%, #000 0%, transparent 100%);
-}
-
-.fx-mask-hero {
-  -webkit-mask-image: radial-gradient(36% 44% at 60% 50%, #000 0%, transparent 100%);
-  mask-image: radial-gradient(36% 44% at 60% 50%, #000 0%, transparent 100%);
-}
-
-.fx-mask-projects {
-  -webkit-mask-image: radial-gradient(32% 42% at 36% 50%, #000 0%, transparent 100%);
-  mask-image: radial-gradient(32% 42% at 36% 50%, #000 0%, transparent 100%);
-}
-
-/* ---------------------------------------------------------------------------
-   Animated background: blurred colour blobs drifting behind the cream sections.
-   ------------------------------------------------------------------------- */
-
-.fx-blob {
-  position: absolute;
-  border-radius: 9999px;
-  filter: blur(80px);
-  will-change: transform;
-}
-
-.fx-blob-a {
-  animation: blob-drift-a 18s ease-in-out infinite alternate;
-}
-
-.fx-blob-b {
-  animation: blob-drift-b 24s ease-in-out infinite alternate;
-}
-
-.fx-blob-c {
-  animation: blob-drift-c 30s ease-in-out infinite alternate;
-}
-
-@keyframes blob-drift-a {
-  from { transform: translate3d(0, 0, 0) scale(1); }
-  to { transform: translate3d(4rem, 3rem, 0) scale(1.15); }
-}
-
-@keyframes blob-drift-b {
-  from { transform: translate3d(0, 0, 0) scale(1.1); }
-  to { transform: translate3d(-5rem, 2rem, 0) scale(0.9); }
-}
-
-@keyframes blob-drift-c {
-  from { transform: translate3d(0, 0, 0) scale(0.95); }
-  to { transform: translate3d(3rem, -3.5rem, 0) scale(1.2); }
-}
-
-/* Gentle bob for the hero illustration — replaces the old infinite bounce. */
-.float-slow {
-  animation: float-slow 6s ease-in-out infinite;
-}
-
-@keyframes float-slow {
-  0%, 100% { transform: translateY(-6px); }
-  50% { transform: translateY(6px); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    /* Delays have to go too. `animate-fade-up` uses `both` fill mode, so a
-       staggered element would otherwise sit at opacity 0 for the whole delay
-       and only then pop in — the reveal is skipped, but the wait is not. */
-    animation-delay: 0.01ms !important;
-    transition-delay: 0.01ms !important;
-  }
-
-  /* AOS applies its own transforms inline; neutralise them so nothing
-     stays stuck mid-reveal when motion is disabled. */
-  [data-aos] {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-}
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition-duration:0ms!important; scroll-behavior:auto!important; } }
