@@ -5,6 +5,13 @@
     "period": "October 2024 — Present",
     "current": true,
     "summary": "I work across the full stack on production web, mobile and AI products. On the backend I build REST APIs with Laravel, Node/Express and FastAPI, backed by MySQL, PostgreSQL, Redis and SQLite, with token and session auth, background workers and queues. On the frontend I ship Vue, Nuxt, React and Next.js in TypeScript and Tailwind, including server-side rendering, KO/EN internationalisation and offline-capable PWAs. I also build and release a native Android app in Kotlin with Jetpack Compose. I've integrated LLM APIs and on-device ONNX computer-vision models, and built realtime features with Pusher and Server-Sent Events. I own delivery end to end — Playwright, Vitest, PHPUnit and pytest suites, Bitbucket Pipelines CI/CD, and Docker deployments to AWS Lightsail behind nginx — working in Jira and testing APIs with Postman.",
+    "highlights": [
+      "Build and maintain REST APIs with authentication, background workers, queues and relational data stores.",
+      "Ship TypeScript front ends with SSR, English and Korean localisation, and offline-capable PWA support.",
+      "Develop and release a native Android app with Kotlin and Jetpack Compose.",
+      "Integrate LLM APIs, on-device ONNX vision models, and realtime updates through Pusher and Server-Sent Events.",
+      "Own quality and delivery through automated test suites, CI/CD pipelines, Docker and AWS Lightsail deployments."
+    ],
     "tech": [
       "TypeScript",
       "Laravel",
