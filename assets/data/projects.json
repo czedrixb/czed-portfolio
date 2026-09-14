@@ -1,142 +1,120 @@
 [
   {
-    "name": "Pokéfinder",
-    "image": "/images/pokefinder.png",
-    "status": "Live",
-    "description": "A Pokémon-themed web app I built to get properly comfortable with Nuxt and consuming third-party APIs. Pokémon is one of my favourite games, which made it an easy project to keep pushing on.",
-    "url": "https://pokefinder-smoky.vercel.app/",
-    "urlLabel": "Visit site",
-    "tech": ["Nuxt", "Vue", "REST API"],
-    "features": [
-      "Browses Pokémon data pulled live from a public REST API",
-      "Built on Nuxt to learn its data fetching and rendering properly",
-      "Chosen as a subject I would actually keep working on"
-    ]
-  },
-  {
     "name": "Sentrix",
-    "image": "/images/sentrix/storefront.jpg",
+    "subtitle": "Eight branches. One connected storefront and staff console.",
+    "image": "/images/sentrix/shop.jpg",
     "status": "Source available",
-    "description": "A storefront and staff back office for a security and surveillance retailer trading across eight branches. Stock, pricing and order visibility are all per branch, so opening a branch is a database insert rather than a deployment.",
-    "detail": "Sentrix is a Laravel 13 API behind Sanctum with a Vue 3 single-page app on top, serving two audiences from the same data: customers browsing a branch's catalogue, and staff working orders, stock, vouchers and content from behind a permission wall. I built it to get properly comfortable with per-branch inventory and an authorisation model that actually holds up on the server rather than just hiding buttons.",
-    "url": "https://github.com/czedrixb/sentrix",
+    "description": "A multi-branch storefront and staff back office for a security and surveillance retailer. Branch-scoped inventory and pricing follow each order from catalogue to checkout, with staff access enforced by role and record.",
+    "detail": "Sentrix connects customer shopping and staff operations across eight branches. Inventory and prices belong to each branch, checkout reserves stock in a single transaction, and server-side permissions keep each role within its responsibilities.",
+    "url": "https://github.com/czedrixb/kompra",
     "urlLabel": "View source",
     "tech": ["Laravel", "Vue 3", "Pinia", "Tailwind", "MySQL"],
+    "previewTech": ["Laravel", "Vue 3", "MySQL"],
     "features": [
-      "Stock lives on a branch–product pivot, so availability, pricing and orders all follow the branch the customer picked",
-      "Checkout is a single transaction that locks the stock rows first, so a failure can never leave some lines decremented and others not",
-      "Seventeen permissions across seven staff roles — a branch manager can correct their own shelf count without seeing another branch's orders",
-      "Vouchers come in four types, are capped at the cart value, and record every redemption",
-      "Money is handled in centavos throughout and never touches a float",
-      "Staff dashboard with a paid-revenue chart and a searchable low-stock panel"
+      "Branch-level stock and pricing stay consistent from product browsing through order placement.",
+      "Checkout locks stock and writes the order in one transaction, preventing partial inventory updates.",
+      "Seven staff roles use 17 server-checked permissions, with sensitive records scoped to the branch where required.",
+      "The back office brings order queues, paid-revenue reporting, low-stock review, vouchers, and redemption history together."
     ],
     "gallery": [
-      {
-        "src": "/images/sentrix/storefront.jpg",
-        "alt": "Sentrix storefront home page with a hero banner",
-        "caption": "The storefront. Everything below is scoped to the branch chosen in the header."
-      },
-      {
-        "src": "/images/sentrix/shop.jpg",
-        "alt": "Sentrix shop catalogue with category and brand filters",
-        "caption": "Catalogue filtered by category and brand — the stock counts are that branch's, not a global total."
-      },
-      {
-        "src": "/images/sentrix/product.jpg",
-        "alt": "Sentrix product detail page showing availability at the selected branch",
-        "caption": "Product detail, with availability resolved against the selected branch."
-      },
-      {
-        "src": "/images/sentrix/admin-dashboard.jpg",
-        "alt": "Sentrix staff dashboard with order counts and a paid-revenue chart",
-        "caption": "The staff dashboard — order pipeline, revenue this month, and paid revenue over time."
-      },
-      {
-        "src": "/images/sentrix/admin-orders.jpg",
-        "alt": "Sentrix admin order queue listing orders across branches",
-        "caption": "The order queue. Order numbers are sequential per day, and rows are scoped by role."
-      }
-    ]
-  },
-  {
-    "name": "My Notes",
-    "image": "/images/my-notes/dashboard.jpg",
-    "status": "Source available",
-    "description": "A pastel masonry notes board on the TALL stack, with live search and a confirm-then-undo-proof delete. Every note is a UUID row that only its owner's session can touch, enforced on the server rather than hidden in the UI.",
-    "detail": "My Notes is a Laravel app built on the TALL stack — Tailwind, Alpine.js, Laravel and Livewire — using Volt single-file components so a page's markup and its class sit in one file instead of split across a controller and a Blade view. I built it to get past tutorial-level CRUD into the parts that actually matter: authorisation that holds even if a note's ID leaks, and a board that feels responsive without shipping a SPA framework for it.",
-    "url": "https://github.com/czedrixb/my-notes",
-    "urlLabel": "View source",
-    "tech": ["Laravel", "Livewire", "Volt", "Alpine.js", "Tailwind"],
-    "features": [
-      "Notes key on a UUID, not a sequential id, so a note's URL never hints at how many exist or whose turn is next",
-      "Every read, edit and delete re-checks a server-side policy — holding someone else's note UUID still gets you nothing",
-      "Search runs live against the title and body, debounced 300ms, with a skeleton shimmer while the round-trip is in flight",
-      "Each card takes a deterministic pastel hashed from its own UUID, so it keeps its colour across every re-render",
-      "Deleting asks for confirmation, animates the card out, then commits, with a toast on success",
-      "Livewire's wire:navigate moves between the board, the editor and the profile page without a full page reload"
-    ],
-    "gallery": [
-      {
-        "src": "/images/my-notes/dashboard.jpg",
-        "alt": "My Notes masonry board with pastel note cards, one card hovered to reveal its actions",
-        "caption": "The board. Each card's colour is hashed from its own UUID, and the open/delete actions only appear on hover."
-      },
-      {
-        "src": "/images/my-notes/search.jpg",
-        "alt": "My Notes search filtering the board down to a single matching note",
-        "caption": "Search runs live against title and body, debounced 300ms, with a skeleton shimmer while it's in flight."
-      },
-      {
-        "src": "/images/my-notes/editor.jpg",
-        "alt": "My Notes note editor with title and content fields",
-        "caption": "The editor. Loading it re-checks the update policy — another user's note UUID gets you a 403, not a form."
-      },
-      {
-        "src": "/images/my-notes/login.jpg",
-        "alt": "My Notes login screen",
-        "caption": "Signed out. Every route past this point is re-authorised per note, not just per session."
-      }
+      { "src": "/images/sentrix/shop.jpg", "alt": "Sentrix product catalogue with category and brand filters for Davao City", "caption": "The catalogue filters products while showing stock for the active branch." },
+      { "src": "/images/sentrix/product.jpg", "alt": "Sentrix product detail with availability for the selected branch", "caption": "Product availability is resolved against the selected branch." },
+      { "src": "/images/sentrix/admin-dashboard.jpg", "alt": "Sentrix staff dashboard with order totals and paid-revenue chart", "caption": "The staff dashboard combines order status, revenue, and operational follow-up." },
+      { "src": "/images/sentrix/admin-orders.jpg", "alt": "Sentrix order queue with orders visible to the signed-in staff role", "caption": "The order queue respects the permissions and branch scope of each staff role." },
+      { "src": "/images/sentrix/storefront.jpg", "alt": "Sentrix customer storefront with a featured security product banner", "caption": "A customer-facing storefront for the selected branch." }
     ]
   },
   {
     "name": "Forkcast",
-    "image": "/images/forkcast/today.jpg",
+    "subtitle": "Turn a meal photo into an editable food log.",
+    "image": "/images/forkcast/scan.jpg",
     "status": "Source available",
-    "description": "An AI calorie tracker built mobile-first: point a camera at a plate and a vision model names the foods and estimates portions, which land as calories and macros on the day's log. The scan cascades across three providers, so one dead key or one bad response doesn't take the feature down.",
-    "detail": "Forkcast is a Next.js 16 App Router app on TypeScript and Tailwind v4, with Prisma 7 over Supabase Postgres and hand-rolled session auth rather than a drop-in provider. I built it to work through two things properly: a camera path that still works when the browser refuses getUserMedia, and a vision dependency that degrades across providers instead of dying with whichever one went down.",
+    "description": "A mobile-first nutrition tracker that scans a meal photo, estimates foods and portions, and adds editable calories and macros to the daily log. The camera flow falls back to photo upload, and the AI scan can move across three providers when one fails.",
+    "detail": "Forkcast pairs a camera-first food scan with a practical daily nutrition log. Scanned foods remain editable before saving, the app can fall back to image upload when camera access is unavailable, and the vision adapter tries Anthropic, OpenAI, then Gemini when a provider fails.",
     "url": "https://github.com/czedrixb/forkcast",
     "urlLabel": "View source",
     "tech": ["Next.js", "TypeScript", "Prisma", "Tailwind", "Postgres"],
+    "previewTech": ["Next.js", "TypeScript", "Prisma"],
     "features": [
-      "The scan tries Anthropic, then OpenAI, then Gemini's free tier, falling through on any failure — and the result names the model that actually answered rather than treating them as interchangeable",
-      "Camera capture asks for the rear-facing stream and drops to a file picker when the browser refuses, with explicit denied and error states instead of a dead viewfinder — and a LAN-HTTPS dev server, since getUserMedia only runs in a secure context and a phone is never on localhost",
-      "A scanned entry keeps its photo: a thumbnail on the day's log that opens full-size, while manually searched entries keep a plain source icon",
-      "Onboarding computes targets from a Mifflin-St Jeor BMR, scales it by activity level, applies the goal delta, then splits 30/40/30 into protein, carbs and fat",
-      "Each log entry stores its own nutrition snapshot, so correcting a food later never rewrites what yesterday's total already said",
-      "A migration turns on row-level security across every table, so Supabase's anonymous PostgREST endpoint returns nothing while Prisma's role bypasses it",
-      "Insights is four Recharts cards — fourteen days of calories against target, the macro split, the weight trend, and a logging-streak heatmap"
+      "Food recognition cascades across Anthropic, OpenAI, and Gemini, and identifies the provider that completed the scan.",
+      "Detected foods and portions can be corrected before they enter the log; scanned meals retain their photo.",
+      "The camera requests the rear-facing device and offers a file-picker path when browser permissions or hardware block it.",
+      "Nutrition targets are personalized during onboarding, while saved log entries keep their original nutrition snapshot.",
+      "The insights view brings calorie and macro trends, weight history, and logging streaks into one place."
     ],
     "gallery": [
-      {
-        "src": "/images/forkcast/today.jpg",
-        "alt": "Forkcast today dashboard with a calorie ring, macro bars and meal sections, a scanned entry showing its photo as a thumbnail",
-        "caption": "The day's log. Scanned entries keep their photo as a tap-to-enlarge thumbnail; searched ones keep a plain icon."
-      },
-      {
-        "src": "/images/forkcast/scan.jpg",
-        "alt": "Forkcast scan results listing detected foods with portion steppers and the model that analyzed them",
-        "caption": "A finished scan, naming whichever provider actually answered. Every detected item is editable before anything is logged."
-      },
-      {
-        "src": "/images/forkcast/search.jpg",
-        "alt": "Forkcast food search filtering the seeded food database",
-        "caption": "Search over the seeded foods, debounced, with custom foods created inline."
-      },
-      {
-        "src": "/images/forkcast/insights.jpg",
-        "alt": "Forkcast insights page with calorie, macro, weight and streak charts",
-        "caption": "Insights — calories against target, macro split, weight trend and logging streak."
-      }
+      { "src": "/images/forkcast/scan.jpg", "alt": "Forkcast scan results with detected foods, portion controls, and provider label", "caption": "A scan returns editable food and portion estimates with the provider shown." },
+      { "src": "/images/forkcast/today.jpg", "alt": "Forkcast daily nutrition log with calories, macros, meals, and saved foods", "caption": "The daily log brings meals, calories, macros, and hydration together." },
+      { "src": "/images/forkcast/search.jpg", "alt": "Forkcast food search over the nutrition database", "caption": "Search the food database or add a custom food inline." },
+      { "src": "/images/forkcast/insights.jpg", "alt": "Forkcast insights with calorie, macro, weight, and logging-streak charts", "caption": "Insights make progress visible across calories, macros, weight, and consistency." }
+    ]
+  },
+  {
+    "name": "Arawan",
+    "subtitle": "A clear view of loans and daily collections.",
+    "image": "/images/arawan/overview.jpg",
+    "status": "Source available",
+    "description": "A mobile-first loan tracker for managing borrowers, payment schedules, and daily collections. Its overview surfaces what is due and collected, while the ledger preserves corrections as reversals and reconciles opening balances.",
+    "detail": "Arawan is a single-owner loan and collection tracker built around a reliable payment ledger. Borrower and loan records feed the daily overview, opening balances can be reconciled, and payment corrections are recorded as reversals instead of silently changing history.",
+    "url": "https://github.com/czedrixb/arawan",
+    "urlLabel": "View source",
+    "tech": ["Nuxt 4", "Vue", "Supabase", "Postgres", "PWA"],
+    "previewTech": ["Nuxt 4", "Supabase", "PWA"],
+    "features": [
+      "The overview shows principal, interest, expected collections, overdue accounts, and recent payment activity.",
+      "Payment corrections are preserved as reversals in the ledger, with opening balances reconciled against each loan.",
+      "Supabase Auth and row-level security restrict borrower and loan data to the single owner.",
+      "The mobile-first interface is installable as a branded progressive web app."
+    ],
+    "gallery": [
+      { "src": "/images/arawan/overview.jpg", "alt": "Arawan loan overview with sample collection totals and recent activity", "caption": "A sample-data overview surfaces collection totals and payment activity at a glance." },
+      { "src": "/images/arawan/records.jpg", "alt": "Arawan loan records table with sample borrowers and repayment details", "caption": "Loan records keep borrower, repayment, and status details together." }
+    ]
+  },
+  {
+    "name": "Tindahan",
+    "subtitle": "Everyday storekeeping, ready for a phone.",
+    "image": "/images/tindahan/today.jpg",
+    "status": "Source available",
+    "description": "A mobile-first point-of-sale PWA for a small sari-sari store. Record sales in a few taps, track profit and stock, complete weekly inventory counts, and move inventory data through Excel.",
+    "detail": "Tindahan turns daily store tasks into a focused mobile workflow: record a sale, keep stock and profit current, review what needs restocking, and reconcile the shelf during a physical count. Its installable PWA keeps those tools close at hand.",
+    "url": "https://github.com/czedrixb/czed-czhan-store",
+    "urlLabel": "View source",
+    "tech": ["Nuxt 4", "Vue", "Tailwind 4", "Drizzle", "PGlite"],
+    "previewTech": ["Nuxt 4", "Tailwind 4", "Drizzle"],
+    "features": [
+      "A quick sale flow updates revenue, cost, profit, and inventory together.",
+      "Low-stock prompts and weekly physical counts help reconcile the shelf with recorded quantities.",
+      "Excel import and export support the store's existing inventory workbook.",
+      "Admin and member roles separate account management and audit history from everyday store work."
+    ],
+    "gallery": [
+      { "src": "/images/tindahan/today.jpg", "alt": "Tindahan dashboard with sample sales, profit, low-stock, and recent-sale data", "caption": "Today's view brings sales, profit, restocking, and recent transactions together." },
+      { "src": "/images/tindahan/sales.jpg", "alt": "Tindahan sale workflow with sample products and quantities", "caption": "The sale flow is designed for quick entry on a phone." }
+    ]
+  },
+  {
+    "name": "My Notes",
+    "subtitle": "A private notes board with live search.",
+    "image": "/images/my-notes/dashboard.jpg",
+    "status": "Source available",
+    "description": "A personal notes board built on Laravel and Livewire. UUID-based records and server-side policies keep each note private, while live search and a deliberate delete flow make everyday editing feel quick.",
+    "detail": "My Notes moves beyond basic CRUD with per-note authorization on every read and write. Livewire keeps the board responsive without a separate SPA, and deterministic card colours, debounced search, and a confirm-before-delete interaction make the notes easy to scan and manage.",
+    "url": "https://github.com/czedrixb/my-notes",
+    "urlLabel": "View source",
+    "tech": ["Laravel", "Livewire", "Volt", "Alpine.js", "Tailwind"],
+    "previewTech": ["Laravel", "Livewire", "Tailwind"],
+    "features": [
+      "UUID note identifiers and server-side policies protect private notes even when an ID is known.",
+      "Search filters note titles and bodies as you type, with a short debounce to keep requests measured.",
+      "Each note keeps a stable pastel colour, and delete asks for confirmation before removing it.",
+      "Livewire navigation moves between the board, editor, and profile without a full-page reload."
+    ],
+    "gallery": [
+      { "src": "/images/my-notes/dashboard.jpg", "alt": "My Notes board with pastel note cards", "caption": "The board keeps notes scannable with a stable colour for each card." },
+      { "src": "/images/my-notes/search.jpg", "alt": "My Notes search filtering the board to a matching note", "caption": "Live search narrows the board by note title and body." },
+      { "src": "/images/my-notes/editor.jpg", "alt": "My Notes editor with title and content fields", "caption": "The editor checks authorization before loading a note." },
+      { "src": "/images/my-notes/login.jpg", "alt": "My Notes sign-in screen", "caption": "Private pages remain behind authenticated access." }
     ]
   }
 ]

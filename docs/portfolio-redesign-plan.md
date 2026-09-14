@@ -39,10 +39,9 @@ Use the first image as the authority for the homepage grid. The second image def
 | Top left | Introduction, editorial character, CV link |
 | Top center | Sentrix, largest featured project preview |
 | Top right | Forkcast project preview |
-| Bottom left | My Notes project preview |
-| Bottom middle | Pokéfinder project preview |
-| Bottom right-center | A regular vertical experience tile with three roles; never a full-width strip |
-| Far right | Technologies and contact in two stacked tiles |
+| Middle row | Arawan, Tindahan, and My Notes project previews |
+| Bottom left-center | A regular experience tile with three roles; never a full-width strip |
+| Bottom right | Technologies and contact tiles |
 
 Use CSS Grid with explicit areas and content-aware row heights. Match the reference proportions rather than forcing every screen into a fixed screenshot height. Start with 8–12px gutters, 16–20px panel radii, and 24–32px outer padding, then refine against the reference. Text must stay readable without clipping job titles.
 
@@ -59,8 +58,9 @@ Each panel fades from opacity 0 to 1 while moving upward 10px and scaling from 0
 | Introduction | 0ms | Bio and character appear together |
 | Sentrix | 45ms | Panel shell and text together; image fades when decoded |
 | Forkcast | 90ms | Same project image treatment |
-| My Notes | 135ms | Same project image treatment |
-| Pokéfinder | 180ms | Same project image treatment |
+| Arawan | 135ms | Same project image treatment |
+| Tindahan | 180ms | Same project image treatment |
+| My Notes | 225ms | Same project image treatment |
 | Experience | 225ms | All roles appear together, without individual timeline animations |
 | Technologies | 270ms | All chips appear together |
 | Contact | 315ms | Actions appear with the panel |
@@ -105,7 +105,7 @@ Only actionable elements get hover/press treatment. Experience rows and static t
 - Header: project name, concise subtitle, technology chips, appropriate source/live link, previous/next controls, and an obvious Close button.
 - Body: large gallery on the left; project description and selected features on the right. On smaller screens, stack these within the same centered-dialog pattern.
 - Gallery thumbnails update the large preview and clearly indicate selection. Counts come from the actual project data, including projects with only one image.
-- Footer: current project number and next-project action. Use the displayed project order consistently: Sentrix, Forkcast, My Notes, Pokéfinder.
+- Footer: current project number and next-project action. Use the displayed project order consistently: Sentrix, Forkcast, Arawan, Tindahan, My Notes.
 - Closing restores focus to the triggering card and preserves page position. Changing projects keeps the shell still and resets that project's gallery to its first image.
 - Capture the originating card rectangle for a transform-based expansion into the tray. Avoid scaling live text throughout the morph: transition a temporary visual shell, then crossfade the real tray content.
 - On close, measure the origin again. If it is no longer visible or layout has changed, use a short centered fade/scale instead of flying toward stale coordinates.
@@ -156,7 +156,7 @@ The project already has Nuxt/Vue, Tailwind, and Playwright configured. No applic
 
 Write/update Playwright tests for this redesign only. Extend the existing project-modal coverage where it remains applicable; do not run a broad unrelated regression suite.
 
-- Homepage: expected panel arrangement, no navbar, four projects, experience as its own regular tile, correct existing CV/contact destinations, and no overflow at desktop and narrow viewport sizes.
+- Homepage: expected panel arrangement, no navbar, five projects in showcase order, experience as its own regular tile, correct existing CV/contact destinations, and no overflow at desktop and narrow viewport sizes.
 - Loading: delayed and failed image requests preserve layout; images resolve into their reserved frames; cached assets do not cause artificial delays.
 - Tray: opens centered from each project, presents the correct data, supports thumbnail and project navigation, closes cleanly, restores focus/scroll, and survives rapid open/close interactions.
 - Zoom: image click opens viewer; controls change scale; drag bounds hold; reset returns to fit; closing preserves selected gallery image. Verify Escape closes one layer at a time.

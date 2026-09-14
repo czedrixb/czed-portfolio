@@ -8,8 +8,8 @@ export default defineNuxtConfig({
     head: {
       htmlAttrs: { lang: 'en', 'data-theme': 'mytheme' },
       meta: [
-        { name: 'theme-color', content: '#f2eee7' },
-        { name: 'color-scheme', content: 'light' },
+        { name: 'theme-color', content: '#171817' },
+        { name: 'color-scheme', content: 'dark' },
       ],
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     },

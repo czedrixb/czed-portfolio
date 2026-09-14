@@ -51,7 +51,7 @@ async function ready(page, url) {
   await page.evaluate(() => new Promise((r) => setTimeout(r, 1200)));
 }
 
-// The Sentrix panel and the four-card grid are both taller than a 900px
+// The Sentrix panel and the five-card grid are both taller than a 900px
 // viewport; give the shots room so each is captured whole and in place.
 const TALL = { width: 1440, height: 1500 };
 
@@ -101,13 +101,13 @@ test("after — modal open on Forkcast", async ({ page }) => {
   await page.screenshot({ path: `${OUT}/modal-forkcast.png` });
 });
 
-test("after — modal degraded (Pokéfinder)", async ({ page }) => {
+test("after — modal open on Arawan", async ({ page }) => {
   await page.setViewportSize(TALL);
   await ready(page, "/");
-  await page.getByRole("button", { name: "View details for Pokéfinder" }).click();
+  await page.getByRole("button", { name: "Open Arawan project details" }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
   await page.evaluate(() => new Promise((r) => setTimeout(r, 1200)));
-  await page.screenshot({ path: `${OUT}/modal-pokefinder.png` });
+  await page.screenshot({ path: `${OUT}/modal-arawan.png` });
 });
 
 test("after — modal on mobile", async ({ page }) => {

@@ -44,10 +44,7 @@
 <script setup>
 import projects from "~/assets/data/projects.json";
 import experience from "~/assets/data/experience.json";
-const order = ['Sentrix', 'Forkcast', 'My Notes', 'Pokéfinder'];
-const subtitles = ['Retail, connected across branches.', 'AI-powered food tracking.', 'A little space for your ideas.', 'Find your next favourite.'];
-const stacks = [['Laravel', 'Vue', 'MySQL'], ['Next.js', 'TypeScript', 'Prisma'], ['Laravel', 'Livewire', 'Tailwind'], ['Nuxt', 'Vue', 'REST API']];
-const featuredProjects = order.map((name, i) => ({ ...projects.find(p => p.name === name), subtitle: subtitles[i], previewTech: stacks[i] }));
+const featuredProjects = projects;
 const technologies = [{name:'Vue',symbol:'V'}, {name:'Nuxt',symbol:'△'}, {name:'Laravel',symbol:'♧'}, {name:'Next.js',symbol:'N'}];
 const activeIndex = ref(-1), origin = shallowRef(null);
 const experienceOrigin = shallowRef(null);
