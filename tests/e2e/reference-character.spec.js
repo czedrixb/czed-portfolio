@@ -11,7 +11,7 @@ test('intro character uses the original reference artwork', async ({ page }) => 
     return;
   }
   const image = intro.locator('.reference-character img');
-  await expect(image).toHaveAttribute('src', '/images/homepage-character-reference.png');
+  await expect(image).toHaveAttribute('src', '/images/developer-desk.png');
   await expect.poll(() => image.evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
   await expect(intro.getByRole('link', { name: 'View my CV ↗' })).toBeVisible();
   mkdirSync('docs/verification', { recursive: true });

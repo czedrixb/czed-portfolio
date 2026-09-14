@@ -29,8 +29,8 @@
     "subtitle": "Turn a meal photo into an editable food log.",
     "image": "/images/forkcast/scan.jpg",
     "status": "Source available",
-    "description": "A mobile-first nutrition tracker that scans a meal photo, estimates foods and portions, and adds editable calories and macros to the daily log. The camera flow falls back to photo upload, and the AI scan can move across three providers when one fails.",
-    "detail": "Forkcast pairs a camera-first food scan with a practical daily nutrition log. Scanned foods remain editable before saving, the app can fall back to image upload when camera access is unavailable, and the vision adapter tries Anthropic, OpenAI, then Gemini when a provider fails.",
+    "description": "A small SaaS-style nutrition product: each person signs up, sets targets during onboarding, and gets their own account-scoped daily log. Its camera-first food scan estimates foods and portions from a meal photo and adds editable calories and macros to that log, falling back to photo upload and moving across three AI providers when one fails.",
+    "detail": "Forkcast pairs a camera-first food scan with a practical daily nutrition log, run as a subscribable per-account service rather than a single-user tool. Scanned foods remain editable before saving, the app can fall back to image upload when camera access is unavailable, and the vision adapter tries Anthropic, OpenAI, then Gemini when a provider fails.",
     "url": "https://github.com/czedrixb/forkcast",
     "urlLabel": "View source",
     "tech": ["Next.js", "TypeScript", "Prisma", "Tailwind", "Postgres"],
@@ -54,7 +54,7 @@
     "subtitle": "A clear view of loans and daily collections.",
     "image": "/images/arawan/overview.jpg",
     "status": "Source available",
-    "description": "A mobile-first loan tracker for managing borrowers, payment schedules, and daily collections. Its overview surfaces what is due and collected, while the ledger preserves corrections as reversals and reconciles opening balances.",
+    "description": "A single-owner loan and collections app for managing borrowers, payment schedules, and daily collections. Its overview surfaces what is due and collected, while the ledger preserves corrections as reversals and reconciles opening balances.",
     "detail": "Arawan is a single-owner loan and collection tracker built around a reliable payment ledger. Borrower and loan records feed the daily overview, opening balances can be reconciled, and payment corrections are recorded as reversals instead of silently changing history.",
     "url": "https://github.com/czedrixb/arawan",
     "urlLabel": "View source",
@@ -64,11 +64,14 @@
       "The overview shows principal, interest, expected collections, overdue accounts, and recent payment activity.",
       "Payment corrections are preserved as reversals in the ledger, with opening balances reconciled against each loan.",
       "Supabase Auth and row-level security restrict borrower and loan data to the single owner.",
-      "The mobile-first interface is installable as a branded progressive web app."
+      "The mobile-first interface is installable as a branded progressive web app.",
+      "A record's own detail view tracks principal, interest, remaining balance, and repayment progress."
     ],
     "gallery": [
       { "src": "/images/arawan/overview.jpg", "alt": "Arawan loan overview with sample collection totals and recent activity", "caption": "A sample-data overview surfaces collection totals and payment activity at a glance." },
-      { "src": "/images/arawan/records.jpg", "alt": "Arawan loan records table with sample borrowers and repayment details", "caption": "Loan records keep borrower, repayment, and status details together." }
+      { "src": "/images/arawan/records.jpg", "alt": "Arawan loan records table with sample borrowers and repayment details", "caption": "Loan records keep borrower, repayment, and status details together." },
+      { "src": "/images/arawan/record-detail.jpg", "alt": "Arawan record detail with a sample loan's principal, interest, and repayment progress", "caption": "A record's own view tracks its principal, interest, remaining balance, and progress." },
+      { "src": "/images/arawan/settings.jpg", "alt": "Arawan settings with currency, default collection days, and PWA install options", "caption": "Settings cover currency, default collection days, and installing the app." }
     ]
   },
   {
@@ -76,8 +79,8 @@
     "subtitle": "Everyday storekeeping, ready for a phone.",
     "image": "/images/tindahan/today.jpg",
     "status": "Source available",
-    "description": "A mobile-first point-of-sale PWA for a small sari-sari store. Record sales in a few taps, track profit and stock, complete weekly inventory counts, and move inventory data through Excel.",
-    "detail": "Tindahan turns daily store tasks into a focused mobile workflow: record a sale, keep stock and profit current, review what needs restocking, and reconcile the shelf during a physical count. Its installable PWA keeps those tools close at hand.",
+    "description": "A mini ERP for a small sari-sari store: point of sale, inventory and stock counts, product and pricing records, reporting, and user roles with an audit trail, in one installable PWA. Record a sale in a few taps, track profit and stock, complete weekly inventory counts, and move inventory data through Excel.",
+    "detail": "Tindahan turns the store's separate operational concerns into one focused system: sales, inventory, pricing, reporting, and staff accounts all read from the same stock and revenue data. Its installable PWA keeps those modules close at hand for a quick sale, a restock review, or a physical count.",
     "url": "https://github.com/czedrixb/czed-czhan-store",
     "urlLabel": "View source",
     "tech": ["Nuxt 4", "Vue", "Tailwind 4", "Drizzle", "PGlite"],
@@ -86,11 +89,14 @@
       "A quick sale flow updates revenue, cost, profit, and inventory together.",
       "Low-stock prompts and weekly physical counts help reconcile the shelf with recorded quantities.",
       "Excel import and export support the store's existing inventory workbook.",
-      "Admin and member roles separate account management and audit history from everyday store work."
+      "Admin and member roles separate account management and audit history from everyday store work.",
+      "Daily, weekly, and monthly reports chart sales and rank best sellers from the same transaction data."
     ],
     "gallery": [
       { "src": "/images/tindahan/today.jpg", "alt": "Tindahan dashboard with sample sales, profit, low-stock, and recent-sale data", "caption": "Today's view brings sales, profit, restocking, and recent transactions together." },
-      { "src": "/images/tindahan/sales.jpg", "alt": "Tindahan sale workflow with sample products and quantities", "caption": "The sale flow is designed for quick entry on a phone." }
+      { "src": "/images/tindahan/sales.jpg", "alt": "Tindahan sale workflow with sample products and quantities", "caption": "The sale flow is designed for quick entry on a phone." },
+      { "src": "/images/tindahan/inventory.jpg", "alt": "Tindahan inventory table with sample stock, cost, and selling price for each product", "caption": "Inventory keeps stock, cost, and price together, with low-stock rows flagged." },
+      { "src": "/images/tindahan/reports.jpg", "alt": "Tindahan weekly report with a daily sales chart and a best-sellers table", "caption": "Reports roll sales into a daily chart and rank the week's best sellers." }
     ]
   },
   {

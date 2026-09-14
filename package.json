@@ -12,6 +12,7 @@
   "dependencies": {
     "nuxt": "^3.12.4",
     "nuxt-aos": "^1.2.5",
+    "ogl": "^1.0.11",
     "vue": "latest"
   },
   "devDependencies": {

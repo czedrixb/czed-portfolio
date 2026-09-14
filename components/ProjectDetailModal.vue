@@ -16,7 +16,7 @@
                 <button ref="imageTrigger" class="expand-image" aria-label="Expand project image" @click="viewerOpen = true"><span>Expand ↗</span></button>
               </div>
               <div v-if="gallery.length > 1" class="thumbnails" aria-label="Project screenshots">
-                <button v-for="(image, index) in gallery" :key="image.src" :class="{ selected: index === imageIndex }" :aria-label="'Show screenshot ' + (index + 1)" :aria-pressed="index === imageIndex" @click="imageIndex = index"><img :src="image.src" alt="" loading="lazy" /></button>
+                <button v-for="(image, index) in gallery" :key="image.src" :class="{ selected: index === imageIndex }" :aria-label="'Show screenshot ' + (index + 1)" :aria-pressed="index === imageIndex" @click="selectImage(index)"><img :src="image.src" alt="" loading="lazy" /></button>
               </div>
               <p class="caption"><span class="sr-only">Screenshot {{ imageIndex + 1 }} of {{ gallery.length }}. </span>{{ selectedImage.caption }}</p>
             </div>
@@ -40,6 +40,19 @@ const selectedImage = computed(() => gallery.value[imageIndex.value] || {});
 const nextProject = computed(() => props.projects[(props.projectIndex + 1) % props.projects.length] || {});
 let trayAnimation, backdropAnimation, closing = false;
 const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// Auto-advance the gallery with the same crossfade PreviewImage already uses
+// for a manual switch. Stops for good once someone picks a screenshot
+// themselves, and pauses while the fullscreen viewer is open.
+const AUTOPLAY_MS = 4500;
+let autoplayTimer = null;
+let autoplayHeld = false;
+function stopAutoplay() { if (autoplayTimer) { clearInterval(autoplayTimer); autoplayTimer = null; } }
+function startAutoplay() {
+  stopAutoplay();
+  if (autoplayHeld || reduced() || viewerOpen.value || gallery.value.length < 2) return;
+  autoplayTimer = setInterval(() => { imageIndex.value = (imageIndex.value + 1) % gallery.value.length; }, AUTOPLAY_MS);
+}
+function selectImage(index) { imageIndex.value = index; autoplayHeld = true; stopAutoplay(); }
 function cleanupAnimations() {
   trayAnimation?.cancel();
   backdropAnimation?.cancel();
@@ -81,11 +94,12 @@ async function animateTray(reverse = false) {
 }
 function onBackdropPointerDown(event) { backdropDown.value = event.target === event.currentTarget; }
 watch(() => props.project, async (project, previous) => {
-  imageIndex.value = 0; viewerOpen.value = false; closing = false;
-  if (project && !previous) { lock(); await nextTick(); tray.value?.focus({ preventScroll:true }); document.querySelector('.site-frame')?.setAttribute('inert',''); animateTray(); }
-  else if (!project && previous) { cleanupAnimations(); unlock(); document.querySelector('.site-frame')?.removeAttribute('inert'); props.origin?.focus({ preventScroll:true }); }
-  else if (project) { await nextTick(); if (!reduced()) tray.value?.querySelector('.tray-content')?.animate([{opacity:.25},{opacity:1}], {duration:220}); }
+  imageIndex.value = 0; viewerOpen.value = false; closing = false; autoplayHeld = false;
+  if (project && !previous) { lock(); await nextTick(); tray.value?.focus({ preventScroll:true }); document.querySelector('.site-frame')?.setAttribute('inert',''); animateTray(); startAutoplay(); }
+  else if (!project && previous) { cleanupAnimations(); stopAutoplay(); unlock(); document.querySelector('.site-frame')?.removeAttribute('inert'); props.origin?.focus({ preventScroll:true }); }
+  else if (project) { await nextTick(); if (!reduced()) tray.value?.querySelector('.tray-content')?.animate([{opacity:.25},{opacity:1}], {duration:220}); startAutoplay(); }
 });
+watch(viewerOpen, (open) => { if (open) stopAutoplay(); else startAutoplay(); });
 watch(selectedImage, (image) => {
   if (!import.meta.client || !props.project) return;
   for (const index of [imageIndex.value, imageIndex.value - 1, imageIndex.value + 1]) {
@@ -106,5 +120,5 @@ function keydown(event) {
 }
 function resize() { cleanupAnimations(); }
 onMounted(() => { document.addEventListener('keydown', keydown); window.addEventListener('resize',resize); });
-onBeforeUnmount(() => { cleanupAnimations(); if (props.project) { unlock(); document.querySelector('.site-frame')?.removeAttribute('inert'); } document.removeEventListener('keydown',keydown); window.removeEventListener('resize',resize); });
+onBeforeUnmount(() => { cleanupAnimations(); stopAutoplay(); if (props.project) { unlock(); document.querySelector('.site-frame')?.removeAttribute('inert'); } document.removeEventListener('keydown',keydown); window.removeEventListener('resize',resize); });
 </script>
