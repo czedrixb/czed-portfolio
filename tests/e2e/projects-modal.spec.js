@@ -39,7 +39,7 @@ test('reference composition, real destinations, and centered tray with stacked z
   await expect(open(page,'Sentrix')).toBeEnabled();
   await expect(page.getByRole('navigation')).toHaveCount(0);
   await expect(page.getByRole('heading',{name:'Czedrix Barcena'})).toBeVisible();
-  await expect(page.locator('.bento-panel')).toHaveCount(8);
+  await expect(page.locator('.bento-panel')).toHaveCount(9);
   await expect(page.getByRole('link',{name:'✉ Email ↗',exact:true})).toHaveAttribute('href','mailto:czedrixb@gmail.com');
   const boxes=await page.locator('.bento-panel').evaluateAll(els=>els.map(e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height}}));
   expect(Math.abs(boxes[0].y-boxes[1].y)).toBeLessThan(2);
@@ -47,16 +47,20 @@ test('reference composition, real destinations, and centered tray with stacked z
   expect(boxes[1].w).toBeGreaterThan(boxes[2].w);
   expect(Math.abs(boxes[3].y-boxes[4].y)).toBeLessThan(2);
   expect(Math.abs(boxes[4].y-boxes[5].y)).toBeLessThan(2);
-  expect(Math.abs(boxes[6].x-boxes[7].x)).toBeLessThan(2);
-  expect(boxes[7].y).toBeGreaterThan(boxes[6].y);
-  await expect(page.locator('.project-preview img.decoded')).toHaveCount(4);
+  expect(boxes[6].y).toBeGreaterThan(boxes[4].y);
+  expect(boxes[7].y).toBeCloseTo(boxes[6].y,0);
+  expect(Math.abs(boxes[7].x-boxes[8].x)).toBeLessThan(2);
+  expect(boxes[8].y).toBeGreaterThan(boxes[7].y);
+  await expect(page.locator('.project-preview img.decoded')).toHaveCount(5);
   await page.screenshot({path:'docs/verification/homepage-after.png',fullPage:true});
   await open(page,'Sentrix').click();
   const tray=page.getByRole('dialog',{name:'Sentrix',exact:true});
   await expect(tray).toBeVisible();
+  await tray.evaluate(el=>Promise.all(el.getAnimations().map(animation=>animation.finished)));
   const b=await tray.boundingBox();
-  expect(Math.abs(b.x+b.width/2-720)).toBeLessThan(2);
-  expect(Math.abs(b.y+b.height/2-500)).toBeLessThan(2);
+  const viewport=await page.evaluate(()=>({w:innerWidth,h:innerHeight}));
+  expect(Math.abs(b.x+b.width/2-viewport.w/2)).toBeLessThan(2);
+  expect(Math.abs(b.y+b.height/2-viewport.h/2)).toBeLessThan(2);
   await expect(page.locator('.site-frame')).toHaveAttribute('inert','');
   await expect(tray.locator('.gallery-stage img')).toHaveClass(/decoded/);
   await expect(tray.locator('.gallery-stage img')).toHaveCSS('opacity','1');
@@ -82,9 +86,9 @@ test('reference composition, real destinations, and centered tray with stacked z
   await expect(page.locator('.site-frame')).not.toHaveAttribute('inert');
   expect(errors).toEqual([]);
 });
-test('all four projects and project navigation use the displayed order',async({page})=>{
+test('all five projects and project navigation use the displayed order',async({page})=>{
  await page.goto('/');
- for(const name of ['Sentrix','Forkcast','My Notes','Pokéfinder']){
+ for(const name of ['Sentrix','Forkcast','Arawan','Tindahan','My Notes']){
   await open(page,name).click();
   await expect(page.getByRole('dialog',{name,exact:true})).toBeVisible();
   await page.keyboard.press('Escape');
@@ -94,6 +98,8 @@ test('all four projects and project navigation use the displayed order',async({p
  await page.getByRole('button',{name:'Next project',exact:true}).click();
  await expect(page.getByRole('dialog',{name:'Forkcast',exact:true})).toBeVisible();
  await expect(page.getByRole('button',{name:'Show screenshot 1',exact:true})).toHaveAttribute('aria-pressed','true');
+ await page.getByRole('button',{name:'Next project',exact:true}).click();
+ await expect(page.getByRole('dialog',{name:'Arawan',exact:true})).toBeVisible();
 });
 test('mobile and tablet stack without horizontal overflow',async({page})=>{
  for(const width of [390,768]){
@@ -107,7 +113,7 @@ test('mobile and tablet stack without horizontal overflow',async({page})=>{
 });
 test('failed preview reserves its frame and offers retry',async({page})=>{
  let failed=true;
- await page.route('**/images/sentrix/storefront.jpg*',route=>failed?route.abort():route.continue());
+ await page.route('**/images/sentrix/shop.jpg*',route=>failed?route.abort():route.continue());
  await page.goto('/');
  const frame=page.locator('.project-0 .preview-frame');
  await expect(frame.getByText('Preview unavailable')).toBeVisible();

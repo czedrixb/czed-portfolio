@@ -6,10 +6,13 @@
       <p class="project-subtitle">{{ project.subtitle }}</p>
     </header>
     <button class="project-open" :disabled="!ready" :aria-label="'Open ' + project.name + ' project details'" @click="$emit('open', $event.currentTarget)">
-      <span class="round-arrow" aria-hidden="true">↗</span><span class="explore-label">Explore project ↗</span>
+      <span class="round-arrow" aria-hidden="true">↗</span>
     </button>
     <PreviewImage class="project-preview" :src="project.image" :alt="project.name + ' project preview'" :eager="index < 2" />
-    <ul class="project-tech"><li v-for="tech in project.previewTech" :key="tech"><span class="tech-symbol" :data-tech="tech">{{ symbols[tech] || '◇' }}</span>{{ tech }}</li></ul>
+    <div class="project-footer">
+      <ul class="project-tech"><li v-for="tech in project.previewTech" :key="tech"><span class="tech-symbol" :data-tech="base(tech)">{{ symbols[base(tech)] || '◇' }}</span>{{ tech }}</li></ul>
+      <span class="explore-label" aria-hidden="true">Explore project ↗</span>
+    </div>
   </article>
 </template>
 <script setup>
@@ -17,6 +20,7 @@ defineProps({ project: Object, index: Number });
 defineEmits(['open']);
 const ready = ref(false);
 onMounted(() => { ready.value = true; });
-const symbols = { Vue: 'V', Nuxt: '△', Laravel: '♧', 'Next.js': 'N', TypeScript: 'TS', MySQL: '⌁', Livewire: '◉', Tailwind: '≈', Prisma: '△', 'REST API': '⚙' };
+const base = tech => tech.replace(/\s+\d+$/, '');
+const symbols = { Vue: 'V', Nuxt: '△', Laravel: '♧', 'Next.js': 'N', TypeScript: 'TS', MySQL: '⌁', Livewire: '◉', Tailwind: '≈', Prisma: '△', 'REST API': '⚙', Supabase: '⚡', Drizzle: '≋', PWA: '⬡' };
 </script>
 
