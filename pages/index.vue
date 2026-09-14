@@ -2,13 +2,25 @@
   <div id="content" class="portfolio-shell">
     <section class="bento-grid" aria-label="Portfolio overview">
       <article class="bento-panel intro-panel reveal-panel" style="--delay:0ms">
-        <p class="eyebrow">Hello, I’m</p>
+        <div class="intro-topline">
+          <p class="eyebrow">Hello, I’m</p>
+          <button
+            class="theme-toggle"
+            type="button"
+            :aria-label="theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
+            :title="theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
+            @click="toggleTheme"
+          >
+            <span class="theme-toggle-track" aria-hidden="true"><span class="theme-toggle-thumb" /></span>
+            <span>{{ theme === 'dark' ? 'Dark' : 'Light' }}</span>
+          </button>
+        </div>
         <h1>Czedrix Barcena</h1>
         <h2>Full stack developer.</h2>
-        <p class="intro-bio">Building web, mobile<br />and AI products.</p>
+        <p class="intro-bio">From idea to production,<br />across every stack.</p>
         <div class="editorial-character">
           <div class="reference-character">
-            <img src="/images/homepage-character-reference.png" width="1536" height="1024" alt="Ink illustration of a developer seated on a stool with a notebook" />
+            <img src="/images/developer-desk.png" width="1536" height="1024" alt="Isometric illustration of a developer coding at a triple-monitor desk setup" />
           </div>
         </div>
         <a class="cv-link" href="/pdf/RESUME-2025-CZEDRIX-BARCENA.pdf" target="_blank" rel="noopener">View my CV ↗</a>
@@ -19,8 +31,8 @@
         <p class="eyebrow">Work experience</p><h2>Work experience</h2><p class="panel-subtitle">Building products and<br />great experiences.</p>
         <ol class="experience-list">
           <li v-for="(job, index) in experience" :key="job.company">
-            <span class="company-icon" aria-hidden="true">{{ ['W', 'R', '♜'][index] }}</span>
-            <div><h3>{{ job.company }}</h3><p>{{ job.role }}</p><p>{{ shortPeriod(job.period) }}</p></div>
+            <span class="company-icon" aria-hidden="true">{{ ['W', 'R', 'D'][index] }}</span>
+            <div><h3>{{ job.company }}</h3><p>{{ job.role }}</p><p>{{ shortPeriod(job.period) }}</p><p class="experience-tagline">{{ job.tagline }}</p></div>
           </li>
         </ol>
         <a class="cv-link" href="/pdf/RESUME-2025-CZEDRIX-BARCENA.pdf" target="_blank" rel="noopener">View full CV ↗</a>
@@ -44,8 +56,9 @@
 <script setup>
 import projects from "~/assets/data/projects.json";
 import experience from "~/assets/data/experience.json";
+const { theme, toggleTheme } = useTheme();
 const featuredProjects = projects;
-const technologies = [{name:'Vue',symbol:'V'}, {name:'Nuxt',symbol:'△'}, {name:'Laravel',symbol:'♧'}, {name:'Next.js',symbol:'N'}];
+const technologies = [{name:'Vue',symbol:'V'}, {name:'Nuxt',symbol:'△'}, {name:'Laravel',symbol:'L'}, {name:'Next.js',symbol:'N'}];
 const activeIndex = ref(-1), origin = shallowRef(null);
 const experienceOrigin = shallowRef(null);
 const experienceOpen = ref(false);

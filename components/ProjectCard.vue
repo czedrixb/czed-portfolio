@@ -21,6 +21,6 @@ defineEmits(['open']);
 const ready = ref(false);
 onMounted(() => { ready.value = true; });
 const base = tech => tech.replace(/\s+\d+$/, '');
-const symbols = { Vue: 'V', Nuxt: '△', Laravel: '♧', 'Next.js': 'N', TypeScript: 'TS', MySQL: '⌁', Livewire: '◉', Tailwind: '≈', Prisma: '△', 'REST API': '⚙', Supabase: '⚡', Drizzle: '≋', PWA: '⬡' };
+const symbols = { Vue: 'V', Nuxt: '△', Laravel: 'L', 'Next.js': 'N', TypeScript: 'TS', MySQL: '⌁', Livewire: '◉', Tailwind: '≈', Prisma: '△', 'REST API': '⚙', Supabase: '⚡', Drizzle: '≋', PWA: '⬡' };
 </script>
 

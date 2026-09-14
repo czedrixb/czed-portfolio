@@ -30,8 +30,20 @@ test('five featured projects use the planned order, highlights, and real preview
   const arawan = page.getByRole('dialog', { name: 'Arawan', exact: true });
   await expect(arawan.getByText(/Payment corrections are preserved as reversals/)).toBeVisible();
   await expect(arawan.locator('.gallery-stage img')).toHaveAttribute('src', '/images/arawan/overview.jpg');
+  // Arawan's gallery grew from 2 to 4 screenshots (record detail + settings).
+  await expect(arawan.locator('.thumbnails button')).toHaveCount(4);
+  for (const n of [1, 2, 3, 4]) {
+    await arawan.getByRole('button', { name: `Show screenshot ${n}`, exact: true }).click();
+    await expect(arawan.locator('.gallery-stage img')).toHaveClass(/decoded/);
+  }
   await page.getByRole('button', { name: 'Next project', exact: true }).click();
   const tindahan = page.getByRole('dialog', { name: 'Tindahan', exact: true });
   await expect(tindahan.getByText(/weekly physical counts/)).toBeVisible();
   await expect(tindahan.locator('.gallery-stage img')).toHaveAttribute('src', '/images/tindahan/today.jpg');
+  // Tindahan's gallery grew from 2 to 4 screenshots (inventory + reports).
+  await expect(tindahan.locator('.thumbnails button')).toHaveCount(4);
+  for (const n of [1, 2, 3, 4]) {
+    await tindahan.getByRole('button', { name: `Show screenshot ${n}`, exact: true }).click();
+    await expect(tindahan.locator('.gallery-stage img')).toHaveClass(/decoded/);
+  }
 });

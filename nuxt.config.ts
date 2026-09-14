@@ -6,11 +6,14 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      htmlAttrs: { lang: 'en', 'data-theme': 'mytheme' },
+      htmlAttrs: { lang: 'en', 'data-theme': 'dark' },
       meta: [
-        { name: 'theme-color', content: '#171817' },
-        { name: 'color-scheme', content: 'dark' },
+        { name: 'theme-color', content: '#07151b' },
+        { name: 'color-scheme', content: 'light dark' },
       ],
+      script: [{
+        innerHTML: `(function(){try{var saved=localStorage.getItem('portfolio-theme');var theme=saved||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme;}catch(e){}})()`,
+      }],
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     },
   },
